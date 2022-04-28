@@ -17,7 +17,7 @@ __homepage__ = 'https://github.com/xlhaw/wfmap'
 import seaborn as sb,matplotlib,matplotlib.pyplot as plt,numpy as np,pandas as pd
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
-def wafermap(data,value,row='MAP_ROW',col='MAP_COL',dtype='cat',title=None,code_dict=None,limit=14,**kwargs): #**arg as spec
+def wafermap(data,value,row='MAP_ROW',col='MAP_COL',dtype='cat',title=None,code_dict=None,limit=14,**kwargs):    #**arg as spec
     '''
     Args
     -------
@@ -121,16 +121,16 @@ def wafermap(data,value,row='MAP_ROW',col='MAP_COL',dtype='cat',title=None,code_
     else:
          print('Data Format Not Supported!')
          return 
-    
+
     ax1.set_axis_off()
     plt.tight_layout()
-    title=value if not title else title
+    title = title or value
     plt.suptitle(title,x=0.52)
     plt.subplots_adjust(top=0.92,wspace=0)
     #plt.savefig(title+'.jpg')
     return fig
 
-def category2num(counts,limit=10): # columns rank
+def category2num(counts,limit=10):    # columns rank
     '''
     Args
     -------
@@ -145,11 +145,11 @@ def category2num(counts,limit=10): # columns rank
     '''
     labels=list(counts.index)
     boundaries = np.arange(limit)
-    code_dict={}
-    indx=0
-    for i,j in counts.items():
-        code_dict[i]=boundaries[-1] if indx > limit-1 else boundaries[indx]
-        indx+=1
+    code_dict = {
+        i: boundaries[-1] if indx > limit - 1 else boundaries[indx]
+        for indx, (i, j) in enumerate(counts.items())
+    }
+
     if len(labels)<limit:
         boundaries=boundaries[:len(labels)]
     else:
